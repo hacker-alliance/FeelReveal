@@ -23,10 +23,12 @@
 
 package com.hackeralliance.feelreveal;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.hardware.usb.UsbDevice;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.Surface;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -59,6 +61,7 @@ public final class MainActivity extends BaseActivity implements CameraDialog.Cam
 	// for open&start / stop&close camera preview
 	private ImageButton mCameraButton;
 	private Surface mPreviewSurface;
+	public Vibrator vibrator;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -71,7 +74,7 @@ public final class MainActivity extends BaseActivity implements CameraDialog.Cam
 		mUVCCameraView.setAspectRatio(UVCCamera.DEFAULT_PREVIEW_WIDTH / (float)UVCCamera.DEFAULT_PREVIEW_HEIGHT);
 
 		mUSBMonitor = new USBMonitor(this, mOnDeviceConnectListener);
-
+		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 	}
 
 	@Override
@@ -122,6 +125,7 @@ public final class MainActivity extends BaseActivity implements CameraDialog.Cam
 			synchronized (mSync) {
 				if (mUVCCamera == null) {
 					CameraDialog.showDialog(MainActivity.this);
+					vibrator.vibrate(100);
 				} else {
 					releaseCamera();
 				}
@@ -279,17 +283,15 @@ public final class MainActivity extends BaseActivity implements CameraDialog.Cam
 	// if you need to create Bitmap in IFrameCallback, please refer following snippet.
 	final Bitmap bitmap = Bitmap.createBitmap(UVCCamera.DEFAULT_PREVIEW_WIDTH, UVCCamera.DEFAULT_PREVIEW_HEIGHT, Bitmap.Config.RGB_565);
 	CameraController camcont = new CameraController();
-	private final IFrameCallback mIFrameCallback = new IFrameCallback() {
-		@Override
-		public void onFrame(final ByteBuffer frame) {
-			frame.clear();
-			synchronized (bitmap) {
-				bitmap.copyPixelsFromBuffer(frame);
-			}
-			camcont.onFrame(bitmap);
-			//mImageView.post(mUpdateImageTask);
+	private final IFrameCallback mIFrameCallback = (final ByteBuffer frame)->{
+		frame.clear();
+		synchronized (bitmap) {
+			bitmap.copyPixelsFromBuffer(frame);
 		}
+		camcont.onFrame(bitmap,(Vibrator)getSystemService(Context.VIBRATOR_SERVICE));
+		//mImageView.post(mUpdateImageTask);
 	};
+
 	
 	private final Runnable mUpdateImageTask = new Runnable() {
 		@Override
