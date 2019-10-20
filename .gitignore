@@ -69,3 +69,5 @@ fastlane/readme.md
 
 .DS_Store
 .cxx
+libuvccamera/src/main/obj
+libuvccamera/src/main/libs
