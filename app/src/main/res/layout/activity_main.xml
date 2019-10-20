@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
@@ -12,16 +13,41 @@
         android:id="@+id/UVCCameraTextureView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"/>
+        android:layout_gravity="top"/>
 
-    <ImageButton
-        android:id="@+id/camera_button"
-        android:layout_width="@dimen/button_size"
-        android:layout_height="@dimen/button_size"
-        android:contentDescription="@string/camera"
-        android:scaleType="centerCrop"
-        android:src="@android:drawable/ic_menu_camera" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".MainPage"
+        tools:showIn="@layout/activity_main">
 
-    <include layout="@layout/content_main_page" />
+        <ImageButton
+            android:id="@+id/camera_button"
+            android:layout_width="232dp"
+            android:layout_height="102dp"
+            android:contentDescription="@string/camera"
+            android:scaleType="fitCenter"
+            android:src="@android:drawable/ic_menu_camera"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.588" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="328dp"
+            android:layout_height="144dp"
+            android:text="List of corresponding vibrations to emotions:\n\n Happy: Short\n Sad: Short Pause Short\n Angry: Long Long Long\n Surprise: Short Short Short Short Short\n Embarrassed: Long pause Long"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/camera_button"
+            app:layout_constraintVertical_bias="0.381" />
+
+    </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>
