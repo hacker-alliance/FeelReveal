@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.hackeralliance.feelreveal"
-        minSdkVersion 14
+        minSdkVersion 22
 		targetSdkVersion versionTarget
 		versionCode 8
 		versionName "3.00"
@@ -35,6 +35,7 @@ dependencies {
 	implementation("com.serenegiant:common:${commonLibVersion}") {
 		exclude module: 'support-v4'
 	}
+	implementation 'com.microsoft.projectoxford:face:1.4.3'
 	implementation project(':libuvccamera')
 
 	implementation "com.android.support:support-v4:${supportLibVersion}"
