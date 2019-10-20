@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.serenegiant.common.BaseActivity;
@@ -288,7 +289,7 @@ public final class MainActivity extends BaseActivity implements CameraDialog.Cam
 		synchronized (bitmap) {
 			bitmap.copyPixelsFromBuffer(frame);
 		}
-		camcont.onFrame(bitmap,(Vibrator)getSystemService(Context.VIBRATOR_SERVICE));
+		camcont.onFrame(bitmap,(TextView)findViewById(R.id.status),(Vibrator) getSystemService(Context.VIBRATOR_SERVICE));
 		//mImageView.post(mUpdateImageTask);
 	};
 

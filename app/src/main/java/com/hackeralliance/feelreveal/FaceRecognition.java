@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Vibrator;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.microsoft.projectoxford.face.FaceServiceClient;
 import com.microsoft.projectoxford.face.FaceServiceRestClient;
@@ -26,7 +27,8 @@ public class FaceRecognition {
     private final String subscriptionKey = "d5be6590c2ce476c8180a9c02583b7ce";
 
     private FaceServiceClient faceServiceClient = new FaceServiceRestClient(apiEndpoint, subscriptionKey);
-    public void detectAndFrame(final Bitmap imageBitmap, final Vibrator vibrate) {
+
+    public void detectAndFrame(final Bitmap imageBitmap, final TextView text, final Vibrator v) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
         ByteArrayInputStream inputStream =
@@ -86,11 +88,21 @@ public class FaceRecognition {
                         }
                         if (result == null) return;
                         if(result.length == 0) return;
-                        vibrate.vibrate(100);
+
                         HashMap<Emotions,Double> emotions = Emotions.parse(result[0].faceAttributes.emotion);
+                        double max = -9999;
+                        Emotions emo = null;
                         for(Emotions emote:emotions.keySet()){
                             Log.i("FACE",emote.name() + ": " + emotions.get(emote));
+                            if(max < emotions.get(emote)){
+                                max = emotions.get(emote);
+                                emo = emote;
+
+                            }
                         }
+                        Log.i("FACEVALUE", max + "");
+                        text.setText(emo.name());
+                        emo.triggerVibration(v);
 
 
 //                        ImageView imageView = findViewById(R.id.imageView1);

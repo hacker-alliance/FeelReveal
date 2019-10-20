@@ -37,16 +37,18 @@
             app:layout_constraintVertical_bias="0.588" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/status"
             android:layout_width="328dp"
             android:layout_height="144dp"
-            android:text="List of corresponding vibrations to emotions:\n\n Happy: Short\n Sad: Short Pause Short\n Angry: Long Long Long\n Surprise: Short Short Short Short Short\n Embarrassed: Long pause Long"
+            android:text="Loading..."
+            android:textSize="50dp"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/camera_button"
-            app:layout_constraintVertical_bias="0.381" />
+            app:layout_constraintVertical_bias="0.382" />
 
     </android.support.constraint.ConstraintLayout>
 

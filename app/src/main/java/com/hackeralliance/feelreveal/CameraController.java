@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Vibrator;
 import android.util.Log;
+import android.widget.TextView;
 
 // Matt's webcam is 30FPS
 
@@ -19,7 +20,7 @@ public class CameraController {
     }
 
     // Called on every Camera frame
-    public void onFrame(Bitmap frame, Vibrator vibrator) {
+    public void onFrame(Bitmap frame, TextView text, Vibrator v) {
         frameCounter += 1;
         Log.i("TEST", frameCounter + "");
         if (initTime == -1) {
@@ -35,7 +36,7 @@ public class CameraController {
             initTime = System.currentTimeMillis();
             Log.i("FRAMES", seconds + "");
             if(seconds >= 3){
-                faceRecognition.detectAndFrame(frame,vibrator);
+                faceRecognition.detectAndFrame(frame,text, v);
                 seconds = 0;
             }
         }
