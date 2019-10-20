@@ -1,6 +1,9 @@
-# FeelReveal
-Getting rid of autism one step at a time.
+# Feel Reveal
+Feel Reveal is a mobile app that helps those on the autism spectrum better integrate into society by helping them interpret emotions through the analysis of facial expressions.
 
+
+
+## Dependencies 
 Before building, Android Studio needs the NDK.
 
 To set this up, follow these steps:
@@ -13,4 +16,4 @@ To set this up, follow these steps:
 
 After this is done and saved, building shouldn't be an issue.
 
-Also, don't update gradle or you'll ruin everything :]
+Also, don't update gradle or you'll break everything :]
