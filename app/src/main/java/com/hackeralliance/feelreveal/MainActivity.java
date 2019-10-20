@@ -289,7 +289,7 @@ public final class MainActivity extends BaseActivity implements CameraDialog.Cam
 		synchronized (bitmap) {
 			bitmap.copyPixelsFromBuffer(frame);
 		}
-		camcont.onFrame(bitmap,(TextView)findViewById(R.id.status),(Vibrator) getSystemService(Context.VIBRATOR_SERVICE));
+		camcont.onFrame(bitmap,(TextView)findViewById(R.id.status),(Vibrator) getSystemService(Context.VIBRATOR_SERVICE), this);
 		//mImageView.post(mUpdateImageTask);
 	};
 

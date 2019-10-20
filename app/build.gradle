@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.hackeralliance.feelreveal"
-        minSdkVersion 22
+        minSdkVersion 26
 		targetSdkVersion versionTarget
 		versionCode 8
 		versionName "3.00"

@@ -1,11 +1,15 @@
 package com.hackeralliance.feelreveal;
 
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Vibrator;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,7 +32,41 @@ public class FaceRecognition {
 
     private FaceServiceClient faceServiceClient = new FaceServiceRestClient(apiEndpoint, subscriptionKey);
 
-    public void detectAndFrame(final Bitmap imageBitmap, final TextView text, final Vibrator v) {
+    private void createNotificationChannel(Context c) {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //CharSequence name = getString(R.string.channel_name);
+            //String description = getString(R.string.channel_description);
+            CharSequence name = "FeelReveal";
+            String description = "FeelRevealDescription";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("FeelRevealChannel", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = c.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        //}
+    }
+
+    public void notifyEmotion(String emotion, Context context) {
+        createNotificationChannel(context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "FeelRevealChannel")
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle(emotion)
+                .setContentText(emotion)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        //NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+
+        //NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(NotificationManager.class);
+
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(1337, builder.build());
+    }
+    public void detectAndFrame(final Bitmap imageBitmap, final TextView text, final Vibrator v, final Context c) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
         ByteArrayInputStream inputStream =
@@ -113,7 +151,7 @@ public class FaceRecognition {
                         display += "(" + result.length +") \n" + emo.name();
                         text.setText(display);
                         emo.triggerVibration(v);
-
+                        notifyEmotion(emo.name() + " " + result.length8, c);
 
 //                        ImageView imageView = findViewById(R.id.imageView1);
 //                        imageView.setImageBitmap(

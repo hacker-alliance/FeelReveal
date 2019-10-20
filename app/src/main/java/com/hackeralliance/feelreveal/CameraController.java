@@ -20,7 +20,7 @@ public class CameraController {
     }
 
     // Called on every Camera frame
-    public void onFrame(Bitmap frame, TextView text, Vibrator v) {
+    public void onFrame(Bitmap frame, TextView text, Vibrator v, Context c) {
         frameCounter += 1;
         Log.i("TEST", frameCounter + "");
         if (initTime == -1) {
@@ -36,7 +36,7 @@ public class CameraController {
             initTime = System.currentTimeMillis();
             Log.i("FRAMES", seconds + "");
             if(seconds >= 3){
-                faceRecognition.detectAndFrame(frame,text, v);
+                faceRecognition.detectAndFrame(frame,text, v, c);
                 seconds = 0;
             }
         }
