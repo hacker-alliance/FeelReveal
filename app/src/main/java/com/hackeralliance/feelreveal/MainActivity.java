@@ -23,6 +23,7 @@
 
 package com.hackeralliance.feelreveal;
 
+import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.hardware.usb.UsbDevice;
 import android.os.Bundle;
@@ -34,12 +35,14 @@ import android.widget.Toast;
 
 import com.serenegiant.common.BaseActivity;
 import com.serenegiant.usb.CameraDialog;
+import com.serenegiant.usb.IFrameCallback;
 import com.serenegiant.usb.IButtonCallback;
 import com.serenegiant.usb.IStatusCallback;
 import com.serenegiant.usb.USBMonitor;
 import com.serenegiant.usb.USBMonitor.OnDeviceConnectListener;
 import com.serenegiant.usb.USBMonitor.UsbControlBlock;
 import com.serenegiant.usb.UVCCamera;
+
 import com.hackeralliance.feelreveal.R;
 import com.hackeralliance.feelreveal.widget.SimpleUVCCameraTextureView;
 
@@ -204,7 +207,7 @@ public final class MainActivity extends BaseActivity implements CameraDialog.Cam
 					if (st != null) {
 						mPreviewSurface = new Surface(st);
 						camera.setPreviewDisplay(mPreviewSurface);
-//						camera.setFrameCallback(mIFrameCallback, UVCCamera.PIXEL_FORMAT_RGB565/*UVCCamera.PIXEL_FORMAT_NV21*/);
+						camera.setFrameCallback(mIFrameCallback, UVCCamera.PIXEL_FORMAT_RGB565/*UVCCamera.PIXEL_FORMAT_NV21*/);
 						camera.startPreview();
 					}
 					synchronized (mSync) {
@@ -273,7 +276,8 @@ public final class MainActivity extends BaseActivity implements CameraDialog.Cam
 
 	// if you need frame data as byte array on Java side, you can use this callback method with UVCCamera#setFrameCallback
 	// if you need to create Bitmap in IFrameCallback, please refer following snippet.
-/*	final Bitmap bitmap = Bitmap.createBitmap(UVCCamera.DEFAULT_PREVIEW_WIDTH, UVCCamera.DEFAULT_PREVIEW_HEIGHT, Bitmap.Config.RGB_565);
+	final Bitmap bitmap = Bitmap.createBitmap(UVCCamera.DEFAULT_PREVIEW_WIDTH, UVCCamera.DEFAULT_PREVIEW_HEIGHT, Bitmap.Config.RGB_565);
+	CameraController camcont = new CameraController();
 	private final IFrameCallback mIFrameCallback = new IFrameCallback() {
 		@Override
 		public void onFrame(final ByteBuffer frame) {
@@ -281,7 +285,8 @@ public final class MainActivity extends BaseActivity implements CameraDialog.Cam
 			synchronized (bitmap) {
 				bitmap.copyPixelsFromBuffer(frame);
 			}
-			mImageView.post(mUpdateImageTask);
+			camcont.onFrame(bitmap);
+			//mImageView.post(mUpdateImageTask);
 		}
 	};
 	
@@ -289,8 +294,8 @@ public final class MainActivity extends BaseActivity implements CameraDialog.Cam
 		@Override
 		public void run() {
 			synchronized (bitmap) {
-				mImageView.setImageBitmap(bitmap);
+				//mImageView.setImageBitmap(bitmap);
 			}
 		}
-	}; */
+	};
 }

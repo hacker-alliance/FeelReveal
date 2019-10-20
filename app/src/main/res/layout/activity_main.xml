@@ -22,4 +22,6 @@
         android:scaleType="centerCrop"
         android:src="@android:drawable/ic_menu_camera" />
 
+    <include layout="@layout/content_main_page" />
+
 </FrameLayout>
