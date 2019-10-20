@@ -12,3 +12,5 @@ To set this up, follow these steps:
 6. It should have some code like `sdk.dir=<path to sdk>`. On the next line put `ndk.dir=<path to ndk>`
 
 After this is done and saved, building shouldn't be an issue.
+
+Also, don't update gradle or you'll ruin everything :]
