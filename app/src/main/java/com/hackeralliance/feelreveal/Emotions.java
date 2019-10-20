@@ -3,6 +3,7 @@ package com.hackeralliance.feelreveal;
 import android.os.Vibrator;
 
 import com.microsoft.projectoxford.face.contract.Emotion;
+import com.microsoft.projectoxford.face.contract.Face;
 
 import java.util.HashMap;
 
@@ -38,9 +39,16 @@ public enum  Emotions {
     public void triggerVibration(Vibrator v){
         iVib.vibrate(v);
     }
+    public static HashMap<Emotions, Double> parse(Face[] faces){
+        HashMap<Emotions, Double> emotion = null;
+        for(Face face:faces){
+            emotion = parse(emotion, face.faceAttributes.emotion);
+        }
+        return emotion;
+    }
     public static HashMap<Emotions, Double> parse(Emotion emote){
             HashMap<Emotions, Double> emotion = new HashMap<>();
-            emotion.put(Emotions.HAPPY,emote.happiness/4);
+            emotion.put(Emotions.HAPPY, emote.happiness/4);
             emotion.put(Emotions.SURPRISE, emote.surprise);
             emotion.put(Emotions.NEUTRAL,  emote.neutral - 0.99);
             emotion.put(Emotions.CONTEMPT, emote.disgust);
@@ -48,6 +56,20 @@ public enum  Emotions {
             emotion.put(Emotions.FEAR, emote.fear);
             emotion.put(Emotions.ANGER,emote.anger);
             return emotion;
+    }
+    public static HashMap<Emotions, Double> parse(HashMap<Emotions, Double> emotion, Emotion emote){
+        if(emotion == null)
+            return parse(emote);
+
+        emotion.put(Emotions.HAPPY,emotion.get(Emotions.HAPPY) + emote.happiness/4);
+        emotion.put(Emotions.SURPRISE,emotion.get(Emotions.SURPRISE) + emote.surprise);
+        emotion.put(Emotions.NEUTRAL,emotion.get(Emotions.NEUTRAL) + emote.neutral - 0.99);
+        emotion.put(Emotions.CONTEMPT,emotion.get(Emotions.CONTEMPT) + emote.contempt);
+        emotion.put(Emotions.DISGUST,emotion.get(Emotions.DISGUST) + emote.disgust);
+        emotion.put(Emotions.FEAR,emotion.get(Emotions.FEAR) + emote.fear);
+        emotion.put(Emotions.ANGER,emotion.get(Emotions.ANGER) + emote.anger);
+
+        return emotion;
     }
 
 }

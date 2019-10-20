@@ -165,9 +165,9 @@ public final class MainActivity extends BaseActivity implements CameraDialog.Cam
 											"data=...)", Toast.LENGTH_SHORT);
 									synchronized (mSync) {
 										if (mToast != null) {
-											mToast.cancel();
+//											mToast.cancel();
 										}
-										toast.show();
+//										toast.show();
 										mToast = toast;
 									}
 								}

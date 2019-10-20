@@ -89,19 +89,29 @@ public class FaceRecognition {
                         if (result == null) return;
                         if(result.length == 0) return;
 
-                        HashMap<Emotions,Double> emotions = Emotions.parse(result[0].faceAttributes.emotion);
+                        String display = "";
                         double max = -9999;
                         Emotions emo = null;
+                        HashMap<Emotions,Double> emotions;
+                        if(result.length > 1){
+                                display += "(GRP)";
+                                emotions = Emotions.parse(result);
+                        }else{
+                            emotions = Emotions.parse(result[0].faceAttributes.emotion);
+                        }
+
                         for(Emotions emote:emotions.keySet()){
-                            Log.i("FACE",emote.name() + ": " + emotions.get(emote));
+                            Log.i(display + "FACE",emote.name() + ": " + emotions.get(emote));
                             if(max < emotions.get(emote)){
                                 max = emotions.get(emote);
                                 emo = emote;
 
                             }
                         }
+
                         Log.i("FACEVALUE", max + "");
-                        text.setText(emo.name());
+                        display += "(" + result.length +") \n" + emo.name();
+                        text.setText(display);
                         emo.triggerVibration(v);
 
 
