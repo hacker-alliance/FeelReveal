@@ -28,10 +28,15 @@ public class FaceRecognition {
     // Add your Face endpoint to your environment variables.
     private final String apiEndpoint = "https://FacialRecogAzure.cognitiveservices.azure.com/face/v1.0/detect?";
     // Add your Face subscription key to your environment variables.
-    private final String subscriptionKey = "d5be6590c2ce476c8180a9c02583b7ce";
 
-    private FaceServiceClient faceServiceClient = new FaceServiceRestClient(apiEndpoint, subscriptionKey);
+    private final String subscriptionKey;
 
+    private FaceServiceClient faceServiceClient;
+
+    public FaceRecognition(){
+        subscriptionKey = BuildConfig.AZURE_KEY;
+        faceServiceClient = new FaceServiceRestClient(apiEndpoint, subscriptionKey);
+    }
     private void createNotificationChannel(Context c) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -151,7 +156,7 @@ public class FaceRecognition {
                         display += "(" + result.length +") \n" + emo.name();
                         text.setText(display);
                         emo.triggerVibration(v);
-                        notifyEmotion(emo.name() + " " + result.length8, c);
+                        notifyEmotion(emo.name() + " " + result.length, c);
 
 //                        ImageView imageView = findViewById(R.id.imageView1);
 //                        imageView.setImageBitmap(

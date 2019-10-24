@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
 
+
+def apikeyPropertiesFile = rootProject.file("local.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
 android {
 	compileSdkVersion versionCompiler
 	buildToolsVersion versionBuildTool
@@ -15,6 +20,7 @@ android {
 		targetSdkVersion versionTarget
 		versionCode 8
 		versionName "3.00"
+		buildConfigField 'String', 'AZURE_KEY', apikeyProperties['AZURE_KEY']
     }
 
     buildTypes {
